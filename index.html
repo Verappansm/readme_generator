@@ -1,60 +1,228 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GitHub README Generator</title>
+    <title>Github README Generator</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Fira+Code&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
-    <div class="container">
-        <h1>GitHub README Generator</h1>
-        <form id="readmeForm">
+    <div class="app-container preview-hidden" id="app">
+        <!-- Input Section -->
+        <main class="sidebar">
+            <div class="header">
+                <h1>README Pro <span style="font-size: 0.8rem; vertical-align: middle; opacity: 0.6;">v2.1</span></h1>
+                <button type="button" id="togglePreview" class="btn-toggle-preview">View Preview</button>
+            </div>
 
-            <label for="name">Your Name:</label>
-            <input type="text" id="name" name="name" required>
+            <form id="readmeForm">
+                <section class="config-section">
+                    <h2>👤 About You</h2>
+                    <div class="work-grid">
+                        <div class="work-row">
+                            <label class="work-label">👋 Name</label>
+                            <input type="text" id="name" placeholder="Rahul Jain">
+                        </div>
+                        <div class="work-row">
+                            <label class="work-label">📝 Subtitle</label>
+                            <input type="text" id="tagline" placeholder="A passionate frontend developer from India">
+                        </div>
+                    </div>
+                </section>
 
-            <label for="subtitle">About me:</label>
-            <textarea id="aboutme" name="aboutme" rows="4"></textarea>
+                <section class="config-section">
+                    <h2>💼 Work & Experience</h2>
+                    <div class="work-grid">
+                        <div class="work-row">
+                            <label class="work-label">🔭 I'm currently working on</label>
+                            <div style="display: flex; gap: 1rem;">
+                                <input type="text" id="work_project" placeholder="project name" style="flex: 1;">
+                                <input type="url" id="work_link" placeholder="project link" style="flex: 1;">
+                            </div>
+                        </div>
+                        <div class="work-row">
+                            <label class="work-label">👯 I'm looking to collaborate on</label>
+                            <div style="display: flex; gap: 1rem;">
+                                <input type="text" id="collab_project" placeholder="project name" style="flex: 1;">
+                                <input type="url" id="collab_link" placeholder="project link" style="flex: 1;">
+                            </div>
+                        </div>
+                        <div class="work-row">
+                            <label class="work-label">🤝 I'm looking for help with</label>
+                            <div style="display: flex; gap: 1rem;">
+                                <input type="text" id="help_project" placeholder="project name" style="flex: 1;">
+                                <input type="url" id="help_link" placeholder="project link" style="flex: 1;">
+                            </div>
+                        </div>
+                        <div class="work-row">
+                            <label class="work-label">🌱 I'm currently learning</label>
+                            <input type="text" id="learning" placeholder="Frameworks, courses etc.">
+                        </div>
+                        <div class="work-row">
+                            <label class="work-label">💬 Ask me about</label>
+                            <input type="text" id="askme" placeholder="react, vue and gsap">
+                        </div>
+                        <div class="work-row">
+                            <label class="work-label">📫 How to reach me</label>
+                            <input type="text" id="reachme" placeholder="example@gmail.com">
+                        </div>
+                        <div class="work-row">
+                            <label class="work-label">👨‍💻 Projects available at</label>
+                            <input type="url" id="projects_url" placeholder="portfolio link">
+                        </div>
+                        <div class="work-row">
+                            <label class="work-label">📝 Regularly write articles on</label>
+                            <input type="url" id="blog_url" placeholder="blog link">
+                        </div>
+                        <div class="work-row">
+                            <label class="work-label">📄 Know about experiences</label>
+                            <input type="url" id="resume_url" placeholder="resume link">
+                        </div>
+                        <div class="work-row">
+                            <label class="work-label">⚡ Fun fact</label>
+                            <input type="text" id="funfact" placeholder="I think I am funny">
+                        </div>
+                    </div>
+                </section>
 
-            <label for="blog">📝 I regularly write articles on</label>
-            <input type="url" id="blog" name="blog">
-            
-            
-            <h2>Socials</h2>
-            <label for="instagram">Instagram</label>
-            <input type="text" id="instagram" name="instagram" placeholder="e.g. _._verappan_._">
+                <section class="config-section">
+                    <div class="skills-header">
+                        <h2>🛠️ Tech Stack</h2>
+                        <div class="search-container">
+                            <span class="search-icon">🔍</span>
+                            <input type="text" id="skillsSearch" placeholder="Search Skills">
+                        </div>
+                    </div>
+                    <div id="techStackContainer">
+                        <div class="tech-category">
+                            <h3>Loading Tech Stack...</h3>
+                        </div>
+                    </div>
+                </section>
 
-            <label for="twitter">Twitter</label>
-            <input type="text" id="twitter" name="twitter" placeholder="e.g. verappan_dev">
+                <section class="config-section">
+                    <h2>📊 GitHub Dashboards</h2>
+                    <div class="work-grid">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                            <div class="work-row">
+                                <label class="work-label">GitHub Username</label>
+                                <input type="text" id="github" placeholder="rahuldkjain">
+                            </div>
+                            <div class="work-row">
+                                <label class="work-label">Stats Theme</label>
+                                <select id="theme">
+                                    <option value="tokyonight">Tokyo Night</option>
+                                    <option value="dark">Dark</option>
+                                    <option value="radical">Radical</option>
+                                    <option value="merko">Merko</option>
+                                    <option value="gruvbox">Gruvbox</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="addons-list">
+                            <label class="checkbox-item"><input type="checkbox" id="profile_stats" checked>
+                                <span>Profile Stats</span></label>
+                            <label class="checkbox-item"><input type="checkbox" id="top_lang" checked> <span>Top
+                                    Languages</span></label>
+                            <label class="checkbox-item"><input type="checkbox" id="streak" checked> <span>Streak
+                                    Stats</span></label>
+                        </div>
+                    </div>
+                </section>
 
-            <label for="linkedin">LinkedIn</label>
-            <input type="text" id="linkedin" name="linkedin" placeholder="e.g. verappansm">
+                <section class="config-section">
+                    <h2>⚙️ Extra Add-ons</h2>
+                    <div class="addons-list">
+                        <label class="checkbox-item"><input type="checkbox" id="addon_visitors"> <span>Visitors Count
+                                Badge</span></label>
+                        <label class="checkbox-item"><input type="checkbox" id="addon_trophy"> <span>GitHub
+                                Trophies</span></label>
+                        <label class="checkbox-item"><input type="checkbox" id="addon_twitter"> <span>Twitter
+                                Badge</span></label>
+                        <label class="checkbox-item"><input type="checkbox" id="addon_blog_devto"> <span>Dev.to Dynamic
+                                Blog</span></label>
+                        <label class="checkbox-item"><input type="checkbox" id="addon_blog_medium"> <span>Medium Dynamic
+                                Blog</span></label>
+                    </div>
+                </section>
 
+                <section class="config-section">
+                    <h2>🌐 Connect with Socials</h2>
+                    <div class="social-grid">
+                        <div class="social-row"><img src="https://cdn.simpleicons.org/twitter/333" alt="twitter"><input
+                                type="text" id="twitter" placeholder="twitter"></div>
+                        <div class="social-row"><img src="https://cdn.simpleicons.org/linkedin/333"
+                                alt="linkedin"><input type="text" id="linkedin" placeholder="linkedin"></div>
+                        <div class="social-row"><img src="https://cdn.simpleicons.org/instagram/333"
+                                alt="instagram"><input type="text" id="instagram" placeholder="instagram"></div>
+                        <div class="social-row"><img src="https://cdn.simpleicons.org/stackoverflow/333"
+                                alt="stackoverflow"><input type="text" id="stackoverflow" placeholder="stackoverflow">
+                        </div>
+                        <div class="social-row"><img src="https://cdn.simpleicons.org/medium/333" alt="medium"><input
+                                type="text" id="medium" placeholder="medium"></div>
+                        <div class="social-row"><img src="https://cdn.simpleicons.org/kaggle/333" alt="kaggle"><input
+                                type="text" id="kaggle" placeholder="kaggle"></div>
+                        <div class="social-row"><img src="https://cdn.simpleicons.org/youtube/333" alt="youtube"><input
+                                type="text" id="youtube_user" placeholder="youtube"></div>
+                        <div class="social-row"><img src="https://cdn.simpleicons.org/leetcode/333"
+                                alt="leetcode"><input type="text" id="leetcode" placeholder="leetcode"></div>
+                        <div class="social-row"><img src="https://cdn.simpleicons.org/codechef/333"
+                                alt="codechef"><input type="text" id="codechef" placeholder="codechef"></div>
+                        <div class="social-row"><img src="https://cdn.simpleicons.org/codeforces/333"
+                                alt="codeforces"><input type="text" id="codeforces" placeholder="codeforces"></div>
+                        <div class="social-row"><img src="https://cdn.simpleicons.org/hackerrank/333"
+                                alt="hackerrank"><input type="text" id="hackerrank" placeholder="hackerrank"></div>
+                        <div class="social-row"><img src="https://cdn.simpleicons.org/discord/333" alt="discord"><input
+                                type="text" id="discord" placeholder="discord"></div>
+                        <div class="social-row"><img src="https://cdn.simpleicons.org/quora/333" alt="quora"><input
+                                type="text" id="quora" placeholder="quora"></div>
+                    </div>
+                </section>
 
+                <section class="config-section">
+                    <h2>🚀 Auto-Deploy</h2>
+                    <div class="work-row">
+                        <label class="work-label">GitHub Personal Access Token (PAT)</label>
+                        <input type="password" id="github_token" placeholder="ghp_xxxxxxxxxxxx">
+                    </div>
+                    <button type="button" id="deployBtn" class="btn-primary" style="width: 100%; margin-top: 1.5rem;">
+                        🚢 Generate & Deploy to GitHub
+                    </button>
+                    <div id="deployStatus" style="margin-top: 1rem; font-size: 0.85rem; text-align: center;"></div>
+                </section>
+            </form>
+        </main>
 
-            <label for="leetcode">LeetCode Profile URL:</label>
-            <input type="url" id="leetcode" name="leetcode">
-            
-            <label for="codechef">CodeChef Profile URL:</label>
-            <input type="url" id="codechef" name="codechef"><br>
-            
-            
-            <button type="submit">Generate README Markdown</button>
-        </form>
+        <!-- Preview Section -->
+        <aside class="preview-area">
+            <header class="preview-header">
+                <div class="preview-tabs">
+                    <div class="tab active" data-tab="preview">Live Preview</div>
+                    <div class="tab" data-tab="code">Markdown Code</div>
+                </div>
+                <div class="actions">
+                    <button id="copyBtn" class="btn-outline">Copy Code</button>
+                </div>
+            </header>
 
-        <ul>
-            <li>Create a repository with a name same as the name of your Github account</li>
-            <li>Create a ReadMe file in it</li>
-            <li>Copy paste the MarkDown code given below</li>
-            <li>Make suitable changes :) </li>
-        </ul>
-
-        <div id="readmeOutput">
-            <!-- Generated Markdown will be displayed here -->
-        </div>
+            <div class="preview-content">
+                <div id="previewPane" class="markdown-body">
+                </div>
+                <div id="codePane" style="display: none;">
+                    <pre><code id="markdownOutput"></code></pre>
+                </div>
+            </div>
+        </aside>
     </div>
 
+    <!-- Script Dependencies -->
     <script src="script.js"></script>
 </body>
+
 </html>
