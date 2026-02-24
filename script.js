@@ -1,65 +1,7 @@
-const TECH_STACK = [
-    // Languages
-    { id: 'js', name: 'JavaScript', category: 'Languages', icon: 'javascript' },
-    { id: 'ts', name: 'TypeScript', category: 'Languages', icon: 'typescript' },
-    { id: 'python', name: 'Python', category: 'Languages', icon: 'python' },
-    { id: 'java', name: 'Java', category: 'Languages', icon: 'java' },
-    { id: 'cpp', name: 'C++', category: 'Languages', icon: 'cplusplus' },
-    { id: 'csharp', name: 'C#', category: 'Languages', icon: 'csharp' },
-    { id: 'go', name: 'Go', category: 'Languages', icon: 'go' },
-    { id: 'rust', name: 'Rust', category: 'Languages', icon: 'rust' },
-    { id: 'php', name: 'PHP', category: 'Languages', icon: 'php' },
-    { id: 'ruby', name: 'Ruby', category: 'Languages', icon: 'ruby' },
-    { id: 'swift', name: 'Swift', category: 'Languages', icon: 'swift' },
-    { id: 'kotlin', name: 'Kotlin', category: 'Languages', icon: 'kotlin' },
-    { id: 'dart', name: 'Dart', category: 'Languages', icon: 'dart' },
-
-    // Frontend
-    { id: 'react', name: 'React', category: 'Frontend', icon: 'react' },
-    { id: 'nextjs', name: 'Next.js', category: 'Frontend', icon: 'nextjs' },
-    { id: 'vue', name: 'Vue.js', category: 'Frontend', icon: 'vuejs' },
-    { id: 'angular', name: 'Angular', category: 'Frontend', icon: 'angularjs' },
-    { id: 'svelte', name: 'Svelte', category: 'Frontend', icon: 'svelte' },
-    { id: 'tailwind', name: 'Tailwind CSS', category: 'Frontend', icon: 'tailwindcss' },
-    { id: 'bootstrap', name: 'Bootstrap', category: 'Frontend', icon: 'bootstrap' },
-    { id: 'sass', name: 'Sass', category: 'Frontend', icon: 'sass' },
-    { id: 'html5', name: 'HTML5', category: 'Frontend', icon: 'html5' },
-    { id: 'css3', name: 'CSS3', category: 'Frontend', icon: 'css3' },
-
-    // Backend / API
-    { id: 'nodejs', name: 'Node.js', category: 'Backend/API', icon: 'nodejs' },
-    { id: 'express', name: 'Express', category: 'Backend/API', icon: 'express' },
-    { id: 'django', name: 'Django', category: 'Backend/API', icon: 'django' },
-    { id: 'flask', name: 'Flask', category: 'Backend/API', icon: 'flask' },
-    { id: 'spring', name: 'Spring', category: 'Backend/API', icon: 'spring' },
-    { id: 'laravel', name: 'Laravel', category: 'Backend/API', icon: 'laravel' },
-    { id: 'dotnet', name: '.NET', category: 'Backend/API', icon: 'dot-net' },
-
-    // Database / Cache
-    { id: 'postgresql', name: 'PostgreSQL', category: 'Database/Cache', icon: 'postgresql' },
-    { id: 'mysql', name: 'MySQL', category: 'Database/Cache', icon: 'mysql' },
-    { id: 'mongodb', name: 'MongoDB', category: 'Database/Cache', icon: 'mongodb' },
-    { id: 'redis', name: 'Redis', category: 'Database/Cache', icon: 'redis' },
-    { id: 'supabase', name: 'Supabase', category: 'Database/Cache', icon: 'supabase' },
-    { id: 'firebase', name: 'Firebase', category: 'Database/Cache', icon: 'firebase' },
-
-    // Cloud / DevOps
-    { id: 'azure', name: 'Azure', category: 'Cloud/DevOps', icon: 'azure' },
-    { id: 'gcp', name: 'Google Cloud', category: 'Cloud/DevOps', icon: 'googlecloud' },
-    { id: 'docker', name: 'Docker', category: 'Cloud/DevOps', icon: 'docker' },
-    { id: 'kubernetes', name: 'Kubernetes', category: 'Cloud/DevOps', icon: 'kubernetes' },
-    { id: 'git', name: 'Git', category: 'Cloud/DevOps', icon: 'git' },
-
-    // Other Tools
-    { id: 'figma', name: 'Figma', category: 'Other Tools', icon: 'figma' },
-    { id: 'postman', name: 'Postman', category: 'Other Tools', icon: 'postman' },
-    { id: 'visualstudiocode', name: 'VS Code', category: 'Other Tools', icon: 'vscode' },
-    { id: 'linux', name: 'Linux', category: 'Other Tools', icon: 'linux' }
-];
-
 let state = {
     name: '',
     tagline: '',
+    aboutme: '',
     work_project: '', work_link: '',
     collab_project: '', collab_link: '',
     help_project: '', help_link: '',
@@ -84,11 +26,12 @@ let state = {
         blog_medium: false
     },
     socials: {
-        twitter: '', linkedin: '', instagram: '',
+        twitter: '', linkedin: '', instagram: '', youtube: '',
         stackoverflow: '', medium: '',
-        kaggle: '', youtube_user: '', leetcode: '', codechef: '',
+        kaggle: '', leetcode: '', codechef: '',
         codeforces: '', hackerrank: '', discord: '', quora: ''
     },
+    socialStyle: 'badges',
     selectedTech: new Set(),
     activeTab: 'preview',
     searchQuery: ''
@@ -114,9 +57,19 @@ function renderTechStack() {
         filteredTech.forEach(tech => {
             const item = document.createElement('div');
             item.className = `tech-item ${state.selectedTech.has(tech.id) ? 'selected' : ''}`;
-            let iconUrl = `https://raw.githubusercontent.com/devicons/devicon/master/icons/${tech.icon}/${tech.icon}-original.svg`;
-            if (tech.id === 'amazonaws') iconUrl = `https://cdn.simpleicons.org/amazonaws/white`;
-            item.innerHTML = `<img src="${iconUrl}" onerror="this.src='https://cdn.simpleicons.org/${tech.id}/white'" alt="${tech.name}"><span>${tech.name}</span>`;
+
+            let iconUrl = tech.customIconUrl;
+            if (!iconUrl) {
+                if (tech.id === 'amazonaws') {
+                    iconUrl = `https://cdn.simpleicons.org/amazonwebservices/white`;
+                } else if (tech.id === 'django') {
+                    iconUrl = `https://cdn.simpleicons.org/django/white`;
+                } else {
+                    iconUrl = `https://raw.githubusercontent.com/devicons/devicon/master/icons/${tech.icon}/${tech.icon}-original.svg`;
+                }
+            }
+
+            item.innerHTML = `<img src="${iconUrl}" onerror="this.src='https://cdn.simpleicons.org/${tech.id}/white'" alt="${tech.name}" title="${tech.name}"><span>${tech.name}</span>`;
             item.onclick = () => toggleTech(tech.id);
             grid.appendChild(item);
         });
@@ -132,7 +85,10 @@ function toggleTech(id) {
 }
 
 function setupEventListeners() {
-    const basicInputs = ['name', 'tagline', 'work_project', 'work_link', 'collab_project', 'collab_link', 'help_project', 'help_link', 'learning', 'askme', 'reachme', 'projects_url', 'blog_url', 'resume_url', 'funfact', 'github', 'theme'];
+    const toggleBtn = document.getElementById('togglePreview');
+    const skillsSearch = document.getElementById('skillsSearch');
+
+    const basicInputs = ['name', 'tagline', 'aboutme', 'work_project', 'work_link', 'collab_project', 'collab_link', 'help_project', 'help_link', 'learning', 'askme', 'reachme', 'projects_url', 'blog_url', 'resume_url', 'funfact', 'github', 'theme'];
     basicInputs.forEach(id => {
         const el = document.getElementById(id);
         if (el) el.addEventListener('input', (e) => { state[id] = e.target.value; updateOutput(); });
@@ -155,21 +111,83 @@ function setupEventListeners() {
         if (el) el.addEventListener('change', (e) => { state.addons[id] = e.target.checked; updateOutput(); });
     });
 
-    const socials = ['twitter', 'linkedin', 'instagram', 'devto', 'codepen', 'codesandbox', 'stackoverflow', 'medium', 'kaggle', 'youtube_user', 'leetcode', 'codechef', 'codeforces', 'hackerrank', 'discord', 'quora', 'rss'];
+    const socials = ['twitter', 'linkedin', 'instagram', 'youtube', 'devto', 'codepen', 'codesandbox', 'stackoverflow', 'medium', 'kaggle', 'leetcode', 'codechef', 'codeforces', 'hackerrank', 'discord', 'quora', 'rss'];
     socials.forEach(id => {
         const el = document.getElementById(id);
         if (el) el.addEventListener('input', (e) => { state.socials[id] = e.target.value; updateOutput(); });
     });
 
-    const toggleBtn = document.getElementById('togglePreview');
+    const socialStyle = document.getElementById('socialStyle');
+    if (socialStyle) {
+        socialStyle.addEventListener('change', (e) => {
+            state.socialStyle = e.target.value;
+            updateOutput();
+        });
+    }
+
     if (toggleBtn) toggleBtn.addEventListener('click', () => {
         const app = document.getElementById('app');
+        const resizer = document.getElementById('resizer');
+        const sidebar = document.querySelector('.sidebar');
+        const previewArea = document.querySelector('.preview-area');
+
         app.classList.toggle('preview-hidden');
-        toggleBtn.textContent = app.classList.contains('preview-hidden') ? 'View Preview' : 'Close Preview';
+        const isHidden = app.classList.contains('preview-hidden');
+        toggleBtn.textContent = isHidden ? 'View Preview' : 'Close Preview';
+
+        if (resizer) resizer.style.display = isHidden ? 'none' : 'block';
+
+        if (isHidden) {
+            sidebar.style.width = '';
+            previewArea.style.width = '';
+        } else {
+            // Restore default 50/50 when opening
+            sidebar.style.width = '50%';
+            previewArea.style.width = '50%';
+        }
     });
 
-    const searchInput = document.getElementById('skillsSearch');
-    if (searchInput) searchInput.addEventListener('input', (e) => { state.searchQuery = e.target.value; renderTechStack(); });
+    if (skillsSearch) {
+        skillsSearch.addEventListener('input', (e) => {
+            state.searchQuery = e.target.value;
+            renderTechStack();
+        });
+    }
+
+    // Resizer Logic
+    const resizer = document.getElementById('resizer');
+    const sidebar = document.querySelector('.sidebar');
+    const previewArea = document.querySelector('.preview-area');
+    let isResizing = false;
+
+    if (resizer) {
+        resizer.addEventListener('mousedown', (e) => {
+            isResizing = true;
+            resizer.classList.add('dragging');
+            document.body.style.cursor = 'col-resize';
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', stopResizing);
+        });
+    }
+
+    function handleMouseMove(e) {
+        if (!isResizing) return;
+        const containerWidth = document.getElementById('app').offsetWidth;
+        const newSidebarWidth = (e.clientX / containerWidth) * 100;
+
+        if (newSidebarWidth > 20 && newSidebarWidth < 80) {
+            sidebar.style.width = `${newSidebarWidth}%`;
+            previewArea.style.width = `${100 - newSidebarWidth}%`;
+        }
+    }
+
+    function stopResizing() {
+        isResizing = false;
+        resizer.classList.remove('dragging');
+        document.body.style.cursor = 'default';
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', stopResizing);
+    }
 
     document.querySelectorAll('.tab').forEach(tab => {
         tab.addEventListener('click', () => {
@@ -192,94 +210,156 @@ function setupEventListeners() {
 
 function generateMarkdown() {
     let md = `# Hi 👋, I'm ${state.name || 'Your Name'}\n`;
-    md += `### ${state.tagline || 'A passionate developer from India'}\n\n`;
+    md += `\n<h4>${state.tagline || 'A passionate developer from India'}</h4>\n\n`;
+
+    if (state.aboutme) {
+        md += `\n${state.aboutme}\n\n`;
+    }
 
     if (state.addons.visitors && state.github) {
-        md += `![Visitors](https://visitor-badge.laobi.icu/badge?page_id=${state.github}.${state.github})\n\n`;
+        md += `<p align="left"><img src="https://komarev.com/ghpvc/?username=${state.github}&label=Profile%20views&color=0e75b6&style=flat" alt="${state.github}" /></p>\n\n`;
     }
 
     let aboutMd = '';
-    if (state.work_project) aboutMd += `- 🔭 I’m currently working on [${state.work_project}](${state.work_link || '#'})\n`;
-    if (state.learning) aboutMd += `- 🌱 I’m currently learning **${state.learning}**\n`;
-    if (state.collab_project) aboutMd += `- 👯 I’m looking to collaborate on [${state.collab_project}](${state.collab_link || '#'})\n`;
-    if (state.help_project) aboutMd += `- 🤝 I’m looking for help with [${state.help_project}](${state.help_link || '#'})\n`;
-    if (state.askme) aboutMd += `- 💬 Ask me about **${state.askme}**\n`;
-    if (state.reachme) aboutMd += `- 📫 How to reach me **${state.reachme}**\n`;
-    if (state.projects_url) aboutMd += `- 👨‍💻 All of my projects are available at [${state.projects_url}](${state.projects_url})\n`;
-    if (state.blog_url) aboutMd += `- 📝 I regularly write articles on [${state.blog_url}](${state.blog_url})\n`;
-    if (state.resume_url) aboutMd += `- 📄 Know about my experiences [${state.resume_url}](${state.resume_url})\n`;
-    if (state.funfact) aboutMd += `- ⚡ Fun fact **${state.funfact}**\n`;
+    if (state.work_project) aboutMd += `\n - 🔭 I’m currently working on [${state.work_project}](${state.work_link || '#'})\n`;
+    if (state.learning) aboutMd += `\n - 🌱 I’m currently learning **${state.learning}**\n`;
+    if (state.collab_project) aboutMd += `\n - 👯 I’m looking to collaborate on [${state.collab_project}](${state.collab_link || '#'})\n`;
+    if (state.help_project) aboutMd += `\n - 🤝 I’m looking for help with [${state.help_project}](${state.help_link || '#'})\n`;
+    if (state.askme) aboutMd += `\n - 💬 Ask me about **${state.askme}**\n`;
+    if (state.reachme) aboutMd += `\n - 📫 How to reach me **${state.reachme}**\n`;
+    if (state.projects_url) aboutMd += `\n - 👨‍💻 All of my projects are available at [${state.projects_url}](${state.projects_url})\n`;
+    if (state.blog_url) aboutMd += `\n - 📝 I regularly write articles on [${state.blog_url}](${state.blog_url})\n`;
+    if (state.resume_url) aboutMd += `\n - 📄 Know about my experiences [${state.resume_url}](${state.resume_url})\n`;
+    if (state.funfact) aboutMd += `\n - ⚡ Fun fact **${state.funfact}**\n`;
     if (aboutMd) md += aboutMd + '\n';
 
-    if (state.addons.trophy && state.github) {
-        md += `### Trophies\n[![trophy](https://github-profile-trophy.vercel.app/?username=${state.github})](https://github.com/ryo-ma/github-profile-trophy)\n\n`;
-    }
-
     if (state.selectedTech.size > 0) {
-        md += `### Languages and Tools:\n\n<p align="left"> `;
+        md += `\n\n<h3 align="left">Languages and Tools:</h3>\n\n<p align="left"> `;
         state.selectedTech.forEach(id => {
             const tech = TECH_STACK.find(t => t.id === id);
             if (tech) {
-                let iconUrl = `https://raw.githubusercontent.com/devicons/devicon/master/icons/${tech.icon}/${tech.icon}-original.svg`;
-                if (tech.id === 'amazonaws') iconUrl = `https://cdn.simpleicons.org/amazonaws/white`;
-                md += `<a href="#" target="_blank" rel="noreferrer"> <img src="${iconUrl}" onerror="this.src='https://cdn.simpleicons.org/${tech.id}/white'" alt="${tech.id}" width="40" height="40"/> </a> `;
+                let iconUrl = tech.customIconUrl;
+                if (!iconUrl) {
+                    if (tech.id === 'amazonaws') {
+                        iconUrl = `https://cdn.simpleicons.org/amazonwebservices/white`;
+                    } else if (tech.id === 'django') {
+                        iconUrl = `https://cdn.simpleicons.org/django/white`;
+                    } else {
+                        iconUrl = `https://raw.githubusercontent.com/devicons/devicon/master/icons/${tech.icon}/${tech.icon}-original.svg`;
+                    }
+                }
+                const link = tech.link || '#';
+                md += `<a href="${link}" target="_blank" rel="noreferrer"><img src="${iconUrl}" onerror="this.src='https://cdn.simpleicons.org/${tech.id}/white'" alt="${tech.id}" title="${tech.name}" width="40" height="40"/></a>`;
             }
         });
         md += `</p>\n\n`;
     }
 
-    if (state.github && (state.stats.profile || state.stats.topLang || state.stats.streak)) {
-        md += `### GitHub Stats:\n\n<p align="center">\n`;
-        if (state.stats.profile) md += `  <img src="https://github-readme-stats.vercel.app/api?username=${state.github}&show_icons=true&theme=${state.theme}" alt="Stats" />\n`;
-        if (state.stats.topLang) md += `  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=${state.github}&layout=compact&theme=${state.theme}" alt="Top Languages" />\n`;
-        if (state.stats.streak) md += `  <img src="https://github-readme-streak-stats.herokuapp.com/?user=${state.github}&theme=${state.theme}" alt="Streak" />\n`;
-        md += `</p>\n\n`;
-    }
+    const connectPlatforms = ['twitter', 'linkedin', 'instagram', 'youtube'];
+    const activeSocials = Object.entries(state.socials).filter(([_, user]) => user);
 
-    if (Object.values(state.socials).some(v => v)) {
-        md += `### Connect with me:\n\n<p align="left">\n`;
-        for (const [platform, user] of Object.entries(state.socials)) {
-            if (user) {
-                const urlMap = {
-                    twitter: `https://twitter.com/${user}`,
-                    linkedin: `https://linkedin.com/in/${user}`,
-                    instagram: `https://instagram.com/${user}`,
-                    devto: `https://dev.to/${user}`,
-                    codepen: `https://codepen.io/${user}`,
-                    codesandbox: `https://codesandbox.io/u/${user}`,
-                    stackoverflow: `https://stackoverflow.com/users/${user}`,
-                    medium: `https://medium.com/@${user}`,
-                    kaggle: `https://kaggle.com/${user}`,
-                    youtube_user: `https://youtube.com/${user}`,
-                    leetcode: `https://leetcode.com/${user}`,
-                    codechef: `https://codechef.com/users/${user}`,
-                    codeforces: `https://codeforces.com/profile/${user}`,
-                    hackerrank: `https://hackerrank.com/${user}`,
-                    discord: `https://discord.gg/${user}`,
-                    quora: `https://quora.com/profile/${user}`,
-                    rss: user
-                };
-                md += `<a href="${urlMap[platform]}" target="blank"><img src="https://img.shields.io/badge/${platform}-%231E3233.svg?style=for-the-badge&logo=${platform}&logoColor=white" alt="${platform}" /></a>\n`;
-            }
+    if (activeSocials.length > 0) {
+        const connectWithMe = activeSocials.filter(([p]) => connectPlatforms.includes(p));
+        const checkMyWork = activeSocials.filter(([p]) => !connectPlatforms.includes(p));
+
+        if (connectWithMe.length > 0) {
+            md += `\n\n<h3 align="left">Connect with me:</h3>\n\n<p align="left">\n`;
+            connectWithMe.forEach(([platform, user]) => {
+                md += renderSocialLink(platform, user);
+            });
+            md += `\n</p>\n\n`;
         }
-        md += `</p>\n\n`;
+
+        if (checkMyWork.length > 0) {
+            md += `\n\n<h3 align="left">Check my work:</h3>\n\n<p align="left">\n`;
+            checkMyWork.forEach(([platform, user]) => {
+                md += renderSocialLink(platform, user);
+            });
+            md += `\n</p>\n\n`;
+        }
     }
 
-    if (state.addons.blog_devto && state.socials.devto) {
-        md += `### Latest Dev.to Blogs\n<!-- DEV-TO-BLOGS:START -->\n<!-- DEV-TO-BLOGS:END -->\n\n`;
-    }
-    if (state.addons.blog_medium && state.socials.medium) {
-        md += `### Latest Medium Blogs\n<!-- MEDIUM-BLOGS:START -->\n<!-- MEDIUM-BLOGS:END -->\n\n`;
+    // GitHub Dashboard stuff at the end
+    if (state.github) {
+        let statsMd = '';
+        if (state.addons.trophy) {
+            statsMd += `<p align="left"><a href="https://github.com/ryo-ma/github-profile-trophy"><img src="https://github-profile-trophy.vercel.app/?username=${state.github}&theme=${state.theme}" alt="${state.github}" /></a></p>\n\n`;
+        }
+        if (state.stats.topLang) statsMd += `<p align="left"><img src="https://github-readme-stats.zcy.dev/api/top-langs?username=${state.github}&show_icons=true&locale=en&layout=compact&theme=${state.theme}" alt="${state.github}" /></p>\n\n`;
+        if (state.stats.profile) statsMd += `<p align="left"><img src="https://github-readme-stats.zcy.dev/api?username=${state.github}&show_icons=true&theme=${state.theme}" alt="${state.github}" /></p>\n\n`;
+        if (state.stats.streak) statsMd += `<p align="left"><img src="https://github-readme-streak-stats.herokuapp.com/?user=${state.github}&theme=${state.theme}" alt="${state.github}" /></p>\n\n`;
+
+        if (statsMd) md += `\n\n` + statsMd;
     }
 
     return md;
+}
+
+const SOCIAL_COLORS = {
+    twitter: '1DA1F2', linkedin: '0077B5', instagram: 'E4405F', youtube: 'FF0000',
+    stackoverflow: 'FE7A15', medium: '12100E', kaggle: '20BEFF',
+    leetcode: 'FFA116', codechef: '5B4638', codeforces: '1F8ACB',
+    hackerrank: '2EC866', discord: '5865F2', quora: 'B92B27',
+    devto: '0A0A0A', codepen: '000000', codesandbox: '000000', rss: 'FFA500'
+};
+
+function renderSocialLink(platform, user) {
+    const urlMap = {
+        twitter: `https://twitter.com/${user}`,
+        linkedin: `https://linkedin.com/in/${user}`,
+        instagram: `https://instagram.com/${user}`,
+        youtube: `https://www.youtube.com/${user}`,
+        devto: `https://dev.to/${user}`,
+        codepen: `https://codepen.io/${user}`,
+        codesandbox: `https://codesandbox.io/u/${user}`,
+        stackoverflow: `https://stackoverflow.com/users/${user}`,
+        medium: `https://medium.com/@${user}`,
+        kaggle: `https://kaggle.com/${user}`,
+        leetcode: `https://leetcode.com/${user}`,
+        codechef: `https://codechef.com/users/${user}`,
+        codeforces: `https://codeforces.com/profile/${user}`,
+        hackerrank: `https://hackerrank.com/${user}`,
+        discord: `https://discord.gg/${user}`,
+        quora: `https://quora.com/profile/${user}`,
+        rss: user
+    };
+
+    const url = urlMap[platform];
+    const color = SOCIAL_COLORS[platform] || '1E3233';
+    let logo = platform === 'twitter' ? 'x' : platform;
+    if (platform === 'devto') logo = 'devdotto';
+
+    if (state.socialStyle === 'icons') {
+        const iconUrl = platform === 'linkedin'
+            ? 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/linkedin.svg'
+            : `https://cdn.simpleicons.org/${logo}/${color}`;
+        return `<a href="${url}" target="blank"><img src="${iconUrl}" alt="${platform}" title="${platform}" height="40" width="40" /></a>&nbsp;`;
+    } else {
+        return `<a href="${url}" target="blank"><img src="https://img.shields.io/badge/${platform}-%23${color}.svg?style=for-the-badge&logo=${logo}&logoColor=white" alt="${platform}" /></a>&nbsp;`;
+    }
 }
 
 function updateOutput() {
     const md = generateMarkdown();
     const codePane = document.getElementById('markdownOutput');
     if (codePane) codePane.textContent = md;
-    const html = md.replace(/\n/g, '<br>').replace(/### (.*)/g, '<h3>$1</h3>').replace(/## (.*)/g, '<h2>$1</h2>').replace(/# (.*)/g, '<h1>$1</h1>').replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank">$1</a>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+    // Better preview rendering to mimic GitHub spacing
+    let html = md
+        .replace(/#### (.*)/g, '<h4>$1</h4>')
+        .replace(/### (.*)/g, '<h3>$1</h3>')
+        .replace(/## (.*)/g, '<h2>$1</h2>')
+        .replace(/# (.*)/g, '<h1>$1</h1>')
+        .replace(/\n\n\n/g, '<p style="margin-bottom: 32px;"></p>') // Handle triple newlines as large gaps
+        .replace(/\n\n/g, '<p></p>')
+        .replace(/\n/g, '<br>')
+        .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank">$1</a>')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+    // Clean up produced fragments
+    html = html.replace(/<a(.*?)><br>/g, '<a$1>')
+        .replace(/<br><\/a>/g, '</a>');
+
     const previewPane = document.getElementById('previewPane');
     if (previewPane) previewPane.innerHTML = html;
 }

@@ -16,9 +16,12 @@
     <div class="app-container preview-hidden" id="app">
         <!-- Input Section -->
         <main class="sidebar">
-            <div class="header">
-                <h1>README Pro <span style="font-size: 0.8rem; vertical-align: middle; opacity: 0.6;">v2.1</span></h1>
+            <div class="preview-toggle-container preview-toggle">
                 <button type="button" id="togglePreview" class="btn-toggle-preview">View Preview</button>
+            </div>
+            <div class="header">
+                <h1>README Pro <span style="font-size: 0.8rem; vertical-align: middle; opacity: 0.6;">by Verappan</span>
+                </h1>
             </div>
 
             <form id="readmeForm">
@@ -27,11 +30,15 @@
                     <div class="work-grid">
                         <div class="work-row">
                             <label class="work-label">👋 Name</label>
-                            <input type="text" id="name" placeholder="Rahul Jain">
+                            <input type="text" id="name" placeholder="Verappan">
                         </div>
                         <div class="work-row">
                             <label class="work-label">📝 Subtitle</label>
                             <input type="text" id="tagline" placeholder="A passionate frontend developer from India">
+                        </div>
+                        <div class="work-row">
+                            <label class="work-label">📖 About Me</label>
+                            <textarea id="aboutme" placeholder="Tell the world about yourself..." rows="4"></textarea>
                         </div>
                     </div>
                 </section>
@@ -112,7 +119,7 @@
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
                             <div class="work-row">
                                 <label class="work-label">GitHub Username</label>
-                                <input type="text" id="github" placeholder="rahuldkjain">
+                                <input type="text" id="github" placeholder="Verappansm">
                             </div>
                             <div class="work-row">
                                 <label class="work-label">Stats Theme</label>
@@ -132,59 +139,60 @@
                                     Languages</span></label>
                             <label class="checkbox-item"><input type="checkbox" id="streak" checked> <span>Streak
                                     Stats</span></label>
+                            <label class="checkbox-item"><input type="checkbox" id="addon_visitors"> <span>Visitors
+                                    Count
+                                    Badge</span></label>
+                            <!-- <label class="checkbox-item"><input type="checkbox" id="addon_trophy"> <span>GitHub
+                                    Trophies</span></label> -->
                         </div>
-                    </div>
-                </section>
-
-                <section class="config-section">
-                    <h2>⚙️ Extra Add-ons</h2>
-                    <div class="addons-list">
-                        <label class="checkbox-item"><input type="checkbox" id="addon_visitors"> <span>Visitors Count
-                                Badge</span></label>
-                        <label class="checkbox-item"><input type="checkbox" id="addon_trophy"> <span>GitHub
-                                Trophies</span></label>
-                        <label class="checkbox-item"><input type="checkbox" id="addon_twitter"> <span>Twitter
-                                Badge</span></label>
-                        <label class="checkbox-item"><input type="checkbox" id="addon_blog_devto"> <span>Dev.to Dynamic
-                                Blog</span></label>
-                        <label class="checkbox-item"><input type="checkbox" id="addon_blog_medium"> <span>Medium Dynamic
-                                Blog</span></label>
                     </div>
                 </section>
 
                 <section class="config-section">
                     <h2>🌐 Connect with Socials</h2>
-                    <div class="social-grid">
-                        <div class="social-row"><img src="https://cdn.simpleicons.org/twitter/333" alt="twitter"><input
-                                type="text" id="twitter" placeholder="twitter"></div>
-                        <div class="social-row"><img src="https://cdn.simpleicons.org/linkedin/333"
-                                alt="linkedin"><input type="text" id="linkedin" placeholder="linkedin"></div>
-                        <div class="social-row"><img src="https://cdn.simpleicons.org/instagram/333"
-                                alt="instagram"><input type="text" id="instagram" placeholder="instagram"></div>
-                        <div class="social-row"><img src="https://cdn.simpleicons.org/stackoverflow/333"
-                                alt="stackoverflow"><input type="text" id="stackoverflow" placeholder="stackoverflow">
+                    <div class="section-content">
+                        <div class="field-group">
+                            <label>Social Icons Style</label>
+                            <select id="socialStyle">
+                                <option value="badges">Badges (Name + Logo)</option>
+                                <option value="icons">Icons (Logo Only)</option>
+                            </select>
                         </div>
-                        <div class="social-row"><img src="https://cdn.simpleicons.org/medium/333" alt="medium"><input
-                                type="text" id="medium" placeholder="medium"></div>
-                        <div class="social-row"><img src="https://cdn.simpleicons.org/kaggle/333" alt="kaggle"><input
-                                type="text" id="kaggle" placeholder="kaggle"></div>
-                        <div class="social-row"><img src="https://cdn.simpleicons.org/youtube/333" alt="youtube"><input
-                                type="text" id="youtube_user" placeholder="youtube"></div>
-                        <div class="social-row"><img src="https://cdn.simpleicons.org/leetcode/333"
-                                alt="leetcode"><input type="text" id="leetcode" placeholder="leetcode"></div>
-                        <div class="social-row"><img src="https://cdn.simpleicons.org/codechef/333"
-                                alt="codechef"><input type="text" id="codechef" placeholder="codechef"></div>
-                        <div class="social-row"><img src="https://cdn.simpleicons.org/codeforces/333"
-                                alt="codeforces"><input type="text" id="codeforces" placeholder="codeforces"></div>
-                        <div class="social-row"><img src="https://cdn.simpleicons.org/hackerrank/333"
-                                alt="hackerrank"><input type="text" id="hackerrank" placeholder="hackerrank"></div>
-                        <div class="social-row"><img src="https://cdn.simpleicons.org/discord/333" alt="discord"><input
-                                type="text" id="discord" placeholder="discord"></div>
-                        <div class="social-row"><img src="https://cdn.simpleicons.org/quora/333" alt="quora"><input
-                                type="text" id="quora" placeholder="quora"></div>
-                    </div>
+
+                        <div class="social-grid">
+                            <div class="social-row"><img src="https://cdn.simpleicons.org/x/333" alt="x"><input
+                                    type="text" id="twitter" placeholder="twitter"></div>
+                            <div class="social-row"><img
+                                    src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/linkedin.svg"
+                                    alt="linkedin"><input type="text" id="linkedin" placeholder="linkedin"></div>
+                            <div class="social-row"><img src="https://cdn.simpleicons.org/instagram/333"
+                                    alt="instagram"><input type="text" id="instagram" placeholder="instagram"></div>
+                            <div class="social-row"><img src="https://cdn.simpleicons.org/stackoverflow/333"
+                                    alt="stackoverflow"><input type="text" id="stackoverflow"
+                                    placeholder="stackoverflow">
+                            </div>
+                            <div class="social-row"><img src="https://cdn.simpleicons.org/medium/333"
+                                    alt="medium"><input type="text" id="medium" placeholder="medium"></div>
+                            <div class="social-row"><img src="https://cdn.simpleicons.org/kaggle/333"
+                                    alt="kaggle"><input type="text" id="kaggle" placeholder="kaggle"></div>
+                            <div class="social-row"><img src="https://cdn.simpleicons.org/youtube/333"
+                                    alt="youtube"><input type="text" id="youtube" placeholder="youtube"></div>
+                            <div class="social-row"><img src="https://cdn.simpleicons.org/leetcode/333"
+                                    alt="leetcode"><input type="text" id="leetcode" placeholder="leetcode"></div>
+                            <div class="social-row"><img src="https://cdn.simpleicons.org/codechef/333"
+                                    alt="codechef"><input type="text" id="codechef" placeholder="codechef"></div>
+                            <div class="social-row"><img src="https://cdn.simpleicons.org/codeforces/333"
+                                    alt="codeforces"><input type="text" id="codeforces" placeholder="codeforces"></div>
+                            <div class="social-row"><img src="https://cdn.simpleicons.org/hackerrank/333"
+                                    alt="hackerrank"><input type="text" id="hackerrank" placeholder="hackerrank"></div>
+                            <div class="social-row"><img src="https://cdn.simpleicons.org/discord/333"
+                                    alt="discord"><input type="text" id="discord" placeholder="discord"></div>
+                            <div class="social-row"><img src="https://cdn.simpleicons.org/quora/333" alt="quora"><input
+                                    type="text" id="quora" placeholder="quora"></div>
+                        </div>
                 </section>
 
+                <!-- 
                 <section class="config-section">
                     <h2>🚀 Auto-Deploy</h2>
                     <div class="work-row">
@@ -196,8 +204,11 @@
                     </button>
                     <div id="deployStatus" style="margin-top: 1rem; font-size: 0.85rem; text-align: center;"></div>
                 </section>
+-->
             </form>
         </main>
+
+        <div id="resizer" class="resizer" style="display: none;"></div>
 
         <!-- Preview Section -->
         <aside class="preview-area">
@@ -222,6 +233,7 @@
     </div>
 
     <!-- Script Dependencies -->
+    <script src="data.js"></script>
     <script src="script.js"></script>
 </body>
 
