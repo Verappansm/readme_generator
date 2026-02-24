@@ -41,11 +41,18 @@ body {
 }
 
 /* Sidebar / Config Area */
-#skillsSearch,
-#socialStyle {
+#skillsSearch {
     width: 100%;
-    margin-bottom: 1rem;
-    /* Added for spacing */
+    margin-bottom: 0.1rem;
+}
+
+#socialStyle {
+    width: 15%;
+    padding: 0.25rem 0.5rem;
+    margin-bottom: 2rem;
+    margin-top: 1rem;
+    margin-left: 0.5rem;
+    /* Clear line space before socials grid */
 }
 
 .sidebar {
@@ -57,12 +64,44 @@ body {
 }
 
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     padding-bottom: 2rem;
     margin-bottom: 2rem;
     border-bottom: 1px solid var(--border);
+}
+
+.header-content {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.github-star-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    background: #fafbfc;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-main);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none !important;
+    box-shadow: 0 1px 0 rgba(27, 31, 35, 0.04);
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.github-star-btn:hover {
+    background: #f3f4f6;
+    border-color: #d1d5da;
+    transform: translateY(-1px);
+}
+
+.github-star-btn svg {
+    color: #586069;
 }
 
 .preview-toggle-container.preview-toggle {
